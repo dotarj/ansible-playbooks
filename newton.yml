@@ -1,0 +1,4 @@
+- hosts: newton
+  roles:
+
+    - role: vim

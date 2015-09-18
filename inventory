@@ -1,0 +1,2 @@
+[newton]
+newton	ansible_connection=local
