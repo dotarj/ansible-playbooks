@@ -1,0 +1,4 @@
+- hosts: einstein
+  roles:
+    - role: common
+    - role: git
