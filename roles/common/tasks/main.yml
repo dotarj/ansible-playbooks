@@ -1,0 +1,14 @@
+- name: "install vim"
+  apt:
+    name: vim
+    update-cache: yes
+
+- name: "install htop"
+  apt:
+    name: htop
+    update-cache: yes
+
+- name: "install tmux"
+  apt:
+    name: tmux
+    update-cache: yes
