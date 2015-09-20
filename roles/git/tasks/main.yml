@@ -1,0 +1,12 @@
+- name: "install git (apt)"
+  apt:
+    name: git
+    state: latest
+  when: ansible_pkg_mgr == 'apt'
+
+- name: "install git (yum)"
+  yum:
+    name: git
+    state: latest
+  when: ansible_pkg_mgr == 'yum'
+
