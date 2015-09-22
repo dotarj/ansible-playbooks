@@ -32,14 +32,10 @@
     state: latest
 
 - name: "install kernel-devel"
-  yum:
-    name: kernel-devel
-    state: latest
+  action: shell yum install -y kernel-devel-$(uname -r)
 
 - name: "install kernel-headers"
-  yum:
-    name: kernel-headers
-    state: latest
+  action: shell yum install -y kernel-headers-$(uname -r)
 
 - name: "install libgomp"
   yum:
@@ -65,4 +61,7 @@
   yum:
     name: VirtualBox-5.0
     state: latest
+
+- name: "install virtualbox kernel driver"
+  action: /etc/init.d/vboxdrv setup
 
