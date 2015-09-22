@@ -2,3 +2,4 @@
   roles:
     - role: common
     - role: git
+    - role: virtualbox
