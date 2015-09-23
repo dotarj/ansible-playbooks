@@ -31,11 +31,19 @@
     name: glibc-headers
     state: latest
 
+- name: "get current kernel name"
+  shell: uname -r
+  register: kernel_name
+
 - name: "install kernel-devel"
-  action: shell yum install -y kernel-devel-$(uname -r)
+  yum:
+    name: kernel-devel-{{ kernel_name.stdout }}
+    state: latest
 
 - name: "install kernel-headers"
-  action: shell yum install -y kernel-headers-$(uname -r)
+  yum:
+    name: kernel-headers-{{ kernel_name.stdout }}
+    state: latest
 
 - name: "install libgomp"
   yum:
@@ -63,5 +71,5 @@
     state: latest
 
 - name: "install virtualbox kernel driver"
-  action: /etc/init.d/vboxdrv setup
+  shell: /etc/init.d/vboxdrv setup
 
