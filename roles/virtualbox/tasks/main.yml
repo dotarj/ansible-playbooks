@@ -6,64 +6,26 @@
     owner: root
     group: root
 
-- name: "install binutils"
-  yum:
-    name: binutils
-    state: latest
-
-- name: "install dkms"
-  yum:
-    name: dkms
-    state: latest
-
-- name: "install gcc"
-  yum:
-    name: gcc
-    state: latest
-
-- name: "install glibc-devel"
-  yum:
-    name: glibc-devel
-    state: latest
-
-- name: "install glibc-headers"
-  yum:
-    name: glibc-headers
-    state: latest
-
 - name: "get current kernel name"
   shell: uname -r
   register: kernel_name
 
-- name: "install kernel-devel"
+- name: "install virtualbox dependencies"
   yum:
-    name: kernel-devel-{{ kernel_name.stdout }}
+    name: "{{ item }}"
     state: latest
-
-- name: "install kernel-headers"
-  yum:
-    name: kernel-headers-{{ kernel_name.stdout }}
-    state: latest
-
-- name: "install libgomp"
-  yum:
-    name: libgomp
-    state: latest
-
-- name: "install make"
-  yum:
-    name: make
-    state: latest
-
-- name: "install patch"
-  yum:
-    name: patch
-    state: latest
-
-- name: "install qt"
-  yum:
-    name: qt
-    state: latest
+  with_items:
+    - binutils
+    - dkms
+    - gcc
+    - glibc-devel
+    - glibc-headers
+    - kernel-devel-{{ kernel_name.stdout }}
+    - kernel-headers-{{ kernel_name.stdout }}
+    - libgomp
+    - make
+    - patch
+    - qt
 
 - name: "install virtualbox"
   yum:
