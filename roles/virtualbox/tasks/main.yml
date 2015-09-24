@@ -9,6 +9,7 @@
 - name: "get current kernel name"
   shell: uname -r
   register: kernel_name
+  changed_when: false
 
 - name: "install virtualbox dependencies"
   yum:
