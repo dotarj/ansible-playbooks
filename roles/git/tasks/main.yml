@@ -2,4 +2,11 @@
   yum:
     name: git
     state: latest
+  when: ansible_pkg_mgr == 'yum'
+
+- name: "install git"
+  apt:
+    name: git
+    state: latest
+  when: ansible_pkg_mgr == 'apt'
 

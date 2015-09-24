@@ -2,14 +2,35 @@
   yum:
     name: vim
     state: latest
+  when: ansible_pkg_mgr == 'yum'
+
+- name: "install vim"
+  apt:
+    name: vim
+    state: latest
+  when: ansible_pkg_mgr == 'apt'
 
 - name: "install htop"
   yum:
     name: htop
     state: latest
+  when: ansible_pkg_mgr == 'yum'
+
+- name: "install htop"
+  apt:
+    name: htop
+    state: latest
+  when: ansible_pkg_mgr == 'apt'
 
 - name: "install tmux"
   yum:
     name: tmux
     state: latest
+  when: ansible_pkg_mgr == 'yum'
+
+- name: "install tmux"
+  apt:
+    name: tmux
+    state: latest
+  when: ansible_pkg_mgr == 'apt'
 
