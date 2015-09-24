@@ -32,6 +32,11 @@
     name: VirtualBox-5.0
     state: latest
 
+- name: "check if virtualbox kernel driver is installed"
+  stat: path=/lib/modules/{{ kernel_name.stdout }}/extra/vboxdrv.ko
+  register: virtualbox_kernel_driver_installed
+
 - name: "install virtualbox kernel driver"
   shell: /etc/init.d/vboxdrv setup
+  when: virtualbox_kernel_driver_installed.stat.exists == false
 
