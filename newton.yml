@@ -1,3 +1,4 @@
 - hosts: newton
   roles:
     - role: common
+    - role: pxe
