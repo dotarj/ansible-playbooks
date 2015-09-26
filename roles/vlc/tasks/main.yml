@@ -1,0 +1,4 @@
+- name: vlc
+  yum:
+    name: vlc
+    state: latest

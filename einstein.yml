@@ -1,5 +1,7 @@
 - hosts: einstein
   roles:
+    - role: rpmfusion
     - role: common
     - role: git
     - role: virtualbox
+    - role: vlc
