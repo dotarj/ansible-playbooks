@@ -1,0 +1,26 @@
+- name: add spotify repo
+  copy:
+    src: fedora-spotify.repo
+    dest: /etc/yum.repos.d
+    mode: 0644
+    owner: root
+    group: root
+
+- name: install spotify
+  yum:
+    name: spotify-client
+    state: latest
+
+- name:
+  file:
+    path: /home/arjen/.config/spotify
+    state: directory
+    mode: 0775
+    owner: arjen
+    group: arjen
+
+- name: set prefs
+  template:
+    src: prefs.j2
+    dest: /home/arjen/.config/spotify/prefs
+
