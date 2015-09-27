@@ -1,0 +1,13 @@
+- name: add dropbox repo
+  copy:
+    src: dropbox.repo
+    dest: /etc/yum.repos.d
+    mode: 0644
+    owner: root
+    group: root
+
+- name: install dropbox
+  yum:
+    name: nautilus-dropbox
+    state: latest
+
