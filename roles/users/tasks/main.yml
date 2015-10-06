@@ -1,0 +1,18 @@
+- name: create arjen group
+  group:
+    name: arjen
+    gid: 1000
+    state: present
+    system: yes
+
+- name: create arjen user
+  user:
+    name: arjen
+    comment: Arjen Post
+    createhome: yes
+    group: arjen
+    groups: wheel
+    password: "{{ password }}"
+    state: present
+    system: yes
+    uid: 1000
