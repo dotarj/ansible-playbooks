@@ -1,0 +1,12 @@
+access_point_interface: wlan0
+access_point_ip_address: 172.16.32.1
+access_point_ssid: CIA surveillance van
+access_point_channel: 7
+
+primary_network_interface: wlan1
+
+dhcp_range_start: 172.16.32.2
+dhcp_range_end: 172.16.32.254
+dhcp_netmask: 255.255.255.0
+dhcp_lease_time: 24h
+

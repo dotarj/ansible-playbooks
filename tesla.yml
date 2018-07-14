@@ -1,0 +1,5 @@
+- hosts: tesla
+  roles:
+    - role: access-point
+    - role: plex-media-server
+

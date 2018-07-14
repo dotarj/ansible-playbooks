@@ -1,0 +1,54 @@
+- name: install dnsmasq
+  apt:
+    name: dnsmasq
+
+- name: install hostapd
+  apt:
+    name: hostapd
+
+- name: configure static ip address
+  blockinfile:
+    dest: /etc/dhcpcd.conf
+    block: |
+      interface {{access_point_interface}}
+        static ip_address={{access_point_ip_address}}/24
+        nohook wpa_supplicant
+  notify: restart dnsmasq
+
+- name: configure dhcp
+  blockinfile:
+    dest: /etc/dnsmasq.conf
+    block: |
+      interface={{access_point_interface}}
+        dhcp-range={{dhcp_range_start}},{{dhcp_range_end}},{{dhcp_netmask}},{{dhcp_lease_time}}
+  notify: restart dnsmasq
+
+- name: create hostapd.d directory
+  file:
+    path: /etc/hostapd.d
+    state: directory
+
+- name: configure access point
+  template:
+    src: hostapd.conf.j2
+    dest: /etc/hostapd.d/hostapd.conf
+  notify: restart hostapd
+
+- name: enable access point configuration
+  lineinfile:
+    dest: /etc/default/hostapd
+    line: DAEMON_CONF="/etc/hostapd.d/hostapd.conf"
+
+- name: enable ip forwarding
+  lineinfile:
+    dest: /etc/sysctl.conf
+    line: net.ipv4.ip_forward=1
+
+- name: enable masquerade
+  iptables:
+    table: nat
+    chain: POSTROUTING
+    out_interface: '{{primary_network_interface}}'
+    jump: MASQUERADE
+  notify: save iptables
+

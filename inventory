@@ -3,3 +3,6 @@ newton   ansible_connection=local
 
 [einstein]
 einstein ansible_ssh_host=10.0.0.1
+
+[tesla]
+tesla ansible_connection=local

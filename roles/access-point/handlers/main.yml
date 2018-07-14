@@ -1,0 +1,20 @@
+- name: restart dnsmasq
+  systemd:
+    name: dnsmasq
+    state: restarted
+
+- name: restart hostapd
+  systemd:
+    name: hostapd
+    state: restarted
+
+- name: save iptables
+  shell: iptables-save > /etc/iptables.rules
+
+- name: save iptables
+  lineinfile:
+    dest: /etc/rc.local
+    line: iptables-restore < /etc/iptables.rules
+    insertbefore: '^exit 0'
+
+
