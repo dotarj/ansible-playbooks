@@ -1,18 +1,15 @@
 - name: add apt key
   apt_key:
     url: https://dev2day.de/pms/dev2day-pms.gpg.key
-    state: present
   when: ansible_lsb.id == 'Raspbian'
 
 - name: add apt repository
   apt_repository:
     repo: deb https://dev2day.de/pms/ stretch main
-    state: present
   when: ansible_lsb.id == 'Raspbian'
 
 - name: install plex media server
   apt:
     name: plexmediaserver-installer
-    state: present
     update_cache: yes
 
