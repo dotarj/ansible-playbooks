@@ -11,13 +11,8 @@
 - name: save iptables
   shell: iptables-save > /etc/iptables.rules
 
-- name: save iptables
+- name: restore iptables
   lineinfile:
     dest: /etc/rc.local
     line: iptables-restore < /etc/iptables.rules
     insertbefore: '^exit 0'
-
-- name: restart iptables
-  service:
-    name: iptables
-    state: restarted

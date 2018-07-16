@@ -52,5 +52,5 @@
     jump: MASQUERADE
   notify:
     - save iptables
-    - restart iptables
+    - restore iptables
 
