@@ -1,10 +1,10 @@
 - name: restart dnsmasq
-  systemd:
+  service:
     name: dnsmasq
     state: restarted
 
 - name: restart hostapd
-  systemd:
+  service:
     name: hostapd
     state: restarted
 
@@ -17,4 +17,7 @@
     line: iptables-restore < /etc/iptables.rules
     insertbefore: '^exit 0'
 
-
+- name: restart iptables
+  service:
+    name: iptables
+    state: restarted
