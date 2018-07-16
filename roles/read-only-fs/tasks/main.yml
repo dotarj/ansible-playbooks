@@ -1,0 +1,117 @@
+- name: uninstall packages
+  apt:
+    name: "{{item}}"
+    state: absent
+    force: yes
+    purge: yes
+  with_items:
+    - anacron
+    - dphys-swapfile
+    - fake-hwclock
+    - lightdm
+    - logrotate
+    - triggerhappy
+    - wolfram-engine
+    - xserver-common
+
+# apt module autoremove is broken, using shell.
+- name: remove unused package dependencies
+  shell: apt-get -y --force-yes  autoremove --purge
+
+- name: install busybox
+  apt:
+    name: busybox-syslogd
+
+- name: move directories to /tmp (1/2)
+  file:
+    dest: "{{item}}"
+    state: absent
+    force: yes
+  with_items:
+    - /var/lib/dhcp
+    - /var/lib/dhcpcd5
+    - /var/lock
+    - /var/run
+    - /var/spool
+
+- name: move directories to /tmp (2/2)
+  file:
+    src: /tmp
+    dest: "{{item}}"
+    state: link
+    force: yes
+  with_items:
+    - /var/lib/dhcp
+    - /var/lib/dhcpcd5
+    - /var/lock
+    - /var/run
+    - /var/spool
+
+- name: move files to /tmp (1/4)
+  file:
+    dest: /etc/resolve.conf
+    state: absent
+    force: yes
+
+- name: move files to /tmp (2/4)
+  file:
+    path: /tmp/dhcpcd.d
+    state: directory
+
+- name: move files to /tmp (3/4)
+  copy:
+    content: ""
+    dest: /tmp/dhcpcd.d/resolv.conf
+    force: no
+
+- name: move files to /tmp (4/4)
+  file:
+    src: /tmp/dhcpd.d/resolv.conf
+    dest: /etc/resolve.conf
+    state: link
+    force: yes
+
+- name: disable services
+  service:
+    name: "{{item}}"
+    enabled: no
+  with_items:
+    - alsa-utils
+    - bootlogs
+    - console-setup
+    - x11-common
+
+- name: change spool permissions
+  lineinfile:
+    dest: /usr/lib/tmpfiles.d/var.conf
+    line: "d /var/spool 1777 - - -"
+    regexp: "d \\/var\\/spool 0755 - - -"
+
+- name: add parameters to /boot/cmdline.txt
+  lineinfile:
+    dest: /boot/cmdline.txt
+    line: "\\1 {{item}}"
+    regexp: "(^(?:(?! \\b{{item}}\\b).)*)$"
+    backrefs: yes
+  with_items:
+    - fastboot
+    - noswap
+    - ro
+
+- name: change /etc/fstab
+  lineinfile:
+    dest: /etc/fstab
+    line: "\\1,ro\\2"
+    regexp: "(.*{{item}})(\\s.*)"
+    backrefs: yes
+  with_items:
+    - "\\/boot\\s+vfat\\s+defaults"
+    - "\\/\\s+ext4\\s+defaults,noatime"
+
+- name:
+  blockinfile:
+    dest: /etc/fstab
+    block: |
+      tmpfs                 /tmp            tmpfs   nosuid,nodev         0       0
+      tmpfs                 /var/log        tmpfs   nosuid,nodev         0       0
+      tmpfs                 /var/tmp        tmpfs   nosuid,nodev         0       0

@@ -2,4 +2,5 @@
   roles:
     - role: access-point
     - role: plex-media-server
+    - role: read-only-fs
 
