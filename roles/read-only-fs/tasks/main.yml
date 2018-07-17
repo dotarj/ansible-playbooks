@@ -86,6 +86,7 @@
     dest: /usr/lib/tmpfiles.d/var.conf
     line: "d /var/spool 1777 - - -"
     regexp: "d \\/var\\/spool 0755 - - -"
+    backrefs: yes
 
 - name: add parameters to /boot/cmdline.txt
   lineinfile:
