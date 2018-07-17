@@ -11,3 +11,4 @@ dhcp_range_end: 172.16.32.254
 dhcp_netmask: 255.255.255.0
 dhcp_lease_time: 24h
 
+plex_library_base_path: /usr/local

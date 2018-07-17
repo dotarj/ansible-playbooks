@@ -13,3 +13,13 @@
     name: plexmediaserver-installer
     update_cache: yes
 
+- name: create plex library folders
+  file:
+    dest: "{{plex_library_base_path}}/{{item}}"
+    owner: plex
+    group: plex
+    mode: 0755
+    state: directory
+  with_items:
+    - movies
+    - tv-series
